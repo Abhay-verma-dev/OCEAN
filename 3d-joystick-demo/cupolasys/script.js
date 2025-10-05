@@ -6,6 +6,14 @@ let clock = new THREE.Clock();
 let isRotating = true;
 let isNightMode = false;
 
+/* ---------- WEATHER / CLOUD LAYER (NASA GIBS - No API Key) ---------- */
+const GIBS_DATE = "2025-10-05"; // use today's date
+const GIBS_LAYER =
+  "MODIS_Terra_Cloud_Top_Pressure_Day"; // or try "VIIRS_NOAA20_Thermal_Anomalies_Day"
+const GIBS_URL = `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${GIBS_LAYER}/default/${GIBS_DATE}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`;
+let weatherLayer = null;
+
+
 /* ---------- NIGHT TEXTURE (change filename here) ---------- */
 const NIGHT_TEXTURE_URL = "earth_night.jpg"; // <--- change to your filename if you rename it
 let earthNightTexture = null;
@@ -25,7 +33,7 @@ const METEOR = {
   minDistanceToEarth: 2.2
 };
 
-/* ---------- Buffers & Geometry references (set at init) ---------- */
+
 let _ptGeom = null;
 let _ptPoints = null;
 let _posBuf = null;
@@ -38,11 +46,11 @@ let _spawnIndex = 0;
 let _initParticles = false;
 let _paused = false;
 
-/* ---------- SATELLITES (added) ---------- */
-let satellitesGroup = null;
-let satellitesArray = []; // entries: { pivot, mesh, radius, speed }
 
-/* -------------------- helpers -------------------- */
+let satellitesGroup = null;
+let satellitesArray = []; 
+
+
 function randRange(a,b){ return a + Math.random()*(b-a); }
 function randomUnitVec(){
   const z = Math.random()*2 - 1;
@@ -51,7 +59,7 @@ function randomUnitVec(){
   return new THREE.Vector3(Math.cos(t)*r, Math.sin(t)*r, z);
 }
 
-/* -------------------- init particle system -------------------- */
+
 function initParticleMeteors() {
   if (!METEOR.enabled || _initParticles || typeof THREE === 'undefined') return;
 
@@ -100,7 +108,7 @@ function initParticleMeteors() {
     map: haloTexture,
     vertexColors: true,
     transparent: true,
-    opacity: 0.82,
+    opacity: 1,
     depthWrite: false,
     blending: THREE.NormalBlending
   });
@@ -360,6 +368,7 @@ function init() {
         earth.scale.set(2,2,2);
         earth.position.set(0,0,-5);
         scene.add(earth);
+        
 
         // Estimate approximate radius (used as safety reference)
         const bbox = new THREE.Box3().setFromObject(earth);
@@ -370,14 +379,7 @@ function init() {
         // Initialize the tiny particle meteors AFTER earth exists so safety checks work
         initParticleMeteors();
 
-        // ISS Marker
-        const issGeometry = new THREE.SphereGeometry(0.03,16,16);
-        const issMaterial = new THREE.MeshBasicMaterial({color:0xff0000});
-        issMarker = new THREE.Mesh(issGeometry, issMaterial);
-        scene.add(issMarker);
-
-        fetchISSData();
-        setInterval(fetchISSData, 5000);
+        
 
         // --- SATELLITES: load model and create multiple orbital clones ---
         satellitesGroup = new THREE.Group();
@@ -398,7 +400,7 @@ function init() {
             const desiredSatelliteSize = approxRadius * 0.06; // tweakable relative size
             const baseScale = desiredSatelliteSize / satMaxDim;
 
-            const SAT_COUNT = 14;
+            const SAT_COUNT = 7;
             const colorPalette = [0xffd27f, 0x7fe0ff, 0xff7fb9, 0xc8ff7f, 0xffffff, 0xffa64d];
 
             const minOrbit = approxRadius + 0.25;
@@ -418,7 +420,7 @@ function init() {
                 }
               });
 
-              const scaleJitter = 1.2 + Math.random() * 0.8;
+              const scaleJitter = 4 + Math.random() * 0.8;
               clone.scale.setScalar(baseScale * scaleJitter);
 
               // Create a pivot anchored at Earth's center so rotating the pivot orbits the clone
@@ -468,45 +470,129 @@ function init() {
     controls.maxPolarAngle = 2*Math.PI/3;
     controls.minAzimuthAngle = -Math.PI/4;
     controls.maxAzimuthAngle = Math.PI/4;
+// --- Default Cupola Loader (base setup) ---
+// Keeps dark tinted glass, black metallic body, and attaches to camera
 
-   // Load Cupola (fixed in front of camera)
-   loader.load("cupolaagaing.glb", function (gltf) {
-    const cupola = gltf.scene;
+// --- Default Cupola Loader (matte version, no shine) ---
+// --- Cupola Loader (Enhanced Interior Version) ---
+// --- Enhanced Cupola Loader (Realistic Interior, No ENV Map) ---
+loader.load("cupolareal.glb", function (gltf) {
+  const cupola = gltf.scene;
 
-    const bbox = new THREE.Box3().setFromObject(cupola);
-    const size = bbox.getSize(new THREE.Vector3());
-    const maxDim = Math.max(size.x, size.y, size.z) || 1;
-    const scaleFactor = 3.0 / maxDim;
-    cupola.scale.setScalar(scaleFactor);
+  /* --- Scale and center --- */
+  const bbox = new THREE.Box3().setFromObject(cupola);
+  const size = bbox.getSize(new THREE.Vector3());
+  const maxDim = Math.max(size.x, size.y, size.z) || 1;
+  const scaleFactor = 3.0 / maxDim;
+  cupola.scale.setScalar(scaleFactor);
 
-    const center = new THREE.Box3().setFromObject(cupola).getCenter(new THREE.Vector3());
-    cupola.position.sub(center);
+  const center = bbox.getCenter(new THREE.Vector3());
+  cupola.position.sub(center);
 
-    cupola.position.z = -1.10;
-    cupola.position.x += 0.2;
+  /* --- Position tuning --- */
+  cupola.position.z = -1.1;
+  cupola.position.x += 0.2;
+  cupola.renderOrder = 999;
 
-    cupola.renderOrder = 999;
+  /* --- Material rework --- */
+  const normalMap = new THREE.TextureLoader().load("metal_detail_normal.jpg"); // small metal normal texture (fine bumps)
+  normalMap.wrapS = normalMap.wrapT = THREE.RepeatWrapping;
+  normalMap.repeat.set(4, 4);
 
-    cupola.traverse((child) => {
-      if (child.isMesh && child.material) {
-        const matName = (child.material.name || "").toString().toLowerCase();
-        if (matName.includes("window") || matName.includes("glass")) {
-            child.material.transparent = true;
-            child.material.opacity = 0.3;
-            child.material.depthTest = true;
-        } else {
-            child.material.transparent = false;
-            child.material.opacity = 1.0;
-            child.material.color = new THREE.Color(0x0000ff);
-            child.material.depthTest = true;
-        }
-        child.material.needsUpdate = true;
+  cupola.traverse((child) => {
+    if (child.isMesh && child.material) {
+      const matName = (child.material.name || "").toLowerCase();
+
+      /* ▪ WINDOWS — transparent but with physical depth */
+      if (matName.includes("window") || matName.includes("glass")) {
+        child.material = new THREE.MeshPhysicalMaterial({
+          color: new THREE.Color(0x0a0a0a),
+          metalness: 0.1,
+          roughness: 0.15,
+          transmission: 0.9,          // visible glass transmission
+          thickness: 0.02,             // gives refraction thickness
+          transparent: true,
+          opacity: 1.0,
+          reflectivity: 0.4,
+          ior: 1.3,                    // realistic glass refractive index
+          clearcoat: 0.4,
+          clearcoatRoughness: 0.3,
+        });
       }
-    });
 
-    // Attach to camera so it never moves relative to view
-    camera.add(cupola);
+      /* ▪ BODY / INTERIOR FRAME */
+      else {
+        const mat = new THREE.MeshStandardMaterial({
+          color: new THREE.Color(0x1e1e1e),  // slightly lighter to reveal detail
+          metalness: 0.35,
+          roughness: 0.82,
+          normalMap: normalMap,
+          normalScale: new THREE.Vector2(0.3, 0.3),
+          envMapIntensity: 0.3,             // subtle reflections
+        });
+
+        // tone adjustments by name
+        if (matName.includes("frame") || matName.includes("ring")) {
+          mat.color = new THREE.Color(0x171717);
+          mat.metalness = 0.4;
+          mat.roughness = 0.75;
+        }
+        if (matName.includes("panel") || matName.includes("inner")) {
+          mat.color = new THREE.Color(0x1b1b1b);
+          mat.metalness = 0.25;
+          mat.roughness = 0.9;
+        }
+        if (matName.includes("mechanism") || matName.includes("joint")) {
+          mat.color = new THREE.Color(0x202020);
+          mat.metalness = 0.45;
+          mat.roughness = 0.7;
+        }
+
+        // soft emissive fill to simulate small cabin lights reflecting
+        mat.emissive = new THREE.Color(0x0a0a0a);
+        mat.emissiveIntensity = 0.15;
+
+        child.material = mat;
+      }
+
+      child.material.needsUpdate = true;
+    }
   });
+
+  /* --- Lighting Enhancement (Cinematic interior) --- */
+
+  // Slight warm interior fill
+  const cabinLight = new THREE.PointLight(0xfff6e8, 0.25, 2.5);
+  cabinLight.position.set(0, 0.25, 0.4);
+  cupola.add(cabinLight);
+
+  // Faint bluish bounce from Earth reflection
+  const earthBounce = new THREE.PointLight(0x2244ff, 0.18, 2.5);
+  earthBounce.position.set(0, -0.5, -0.3);
+  cupola.add(earthBounce);
+
+  // Ambient base tone
+  const ambient = new THREE.AmbientLight(0x111111, 0.4);
+  cupola.add(ambient);
+
+  /* --- Optional: Soft rim light to give window edge separation --- */
+  const rimLight = new THREE.SpotLight(0x6699ff, 0.2, 3, Math.PI / 3, 0.8);
+  rimLight.position.set(0, 0.2, 1.0);
+  rimLight.target.position.set(0, 0, 0);
+  cupola.add(rimLight);
+  cupola.add(rimLight.target);
+
+  /* --- Attach to camera --- */
+  camera.add(cupola);
+});
+
+
+
+
+
+
+
+
 
     scene.add(camera);
     window.addEventListener("resize", onWindowResize);
@@ -553,29 +639,7 @@ function animate(){
     renderer.render(scene,camera);
 }
 
-// ISS marker functions
-function updateISSMarker(lat, lon){
-    if(!issMarker) return;
-    const radius = 2.05;
-    const phi = (90-lat)*(Math.PI/180);
-    const theta = (lon+180)*(Math.PI/180);
-    const x = radius*Math.sin(phi)*Math.cos(theta);
-    const y = radius*Math.cos(phi);
-    const z = radius*Math.sin(phi)*Math.sin(theta) - 5; // match earth.z
-    issMarker.position.set(x,y,z);
-}
 
-function fetchISSData(){
-    // The open-notify API is commonly available over http. If you host over https, consider proxying or using a secure endpoint.
-    fetch("http://api.open-notify.org/iss-now.json")
-        .then(res=>res.json())
-        .then(data=>{
-            const lat = parseFloat(data.iss_position.latitude);
-            const lon = parseFloat(data.iss_position.longitude);
-            updateISSMarker(lat, lon);
-        })
-        .catch(err=>console.error("ISS API error:", err));
-}
 
 // Buttons (ensure those elements exist in DOM)
 const rb = document.getElementById("rotateBtn");
@@ -624,7 +688,9 @@ if (nightBtn) nightBtn.addEventListener("click",()=>{
     }
 });
 
-// Simple night-mode fallback (if user toggles before earth loads)
-// If earth is not ready, applyNightMap/removeNightMap will no-op until earth exists.
+
+
+
+
 
 window.addEventListener("load", init);
