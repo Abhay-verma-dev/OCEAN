@@ -1,0 +1,45 @@
+/* Remove default margins */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: black;
+}
+
+/* Fullscreen canvas */
+#earthCanvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+
+/* Floating controls */
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
+  backdrop-filter: blur(6px);
+  transition: 0.3s;
+}
+.btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+.btn-outline {
+  border: 1px solid white;
+}
