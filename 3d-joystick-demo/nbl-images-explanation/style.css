@@ -1,0 +1,123 @@
+:root {
+  --accent: #00d9ff;
+  --gold: #FFD54F;
+  --card-bg: rgba(255,255,255,0.04);
+  --card-border: rgba(255,255,255,0.06);
+  --glass-bg: rgba(10,10,14,0.6);
+  --text-muted: #d1dbe8;
+  --max-width: 1100px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg, #020202, #101820);
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ---------- Header ---------- */
+header {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+}
+header h1 {
+  font-size: 2.2rem;
+  color: var(--accent);
+}
+header p {
+  margin-top: 6px;
+  color: #dfe6ef;
+  opacity: 0.9;
+  font-size: 1.05rem;
+}
+
+/* ---------- Gallery Layout ---------- */
+.gallery {
+  max-width: var(--max-width);
+  width: 90%;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* ---------- Card ---------- */
+.card {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 1rem;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  opacity: 0;
+  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Left/Right starting position */
+.card.left {
+  transform: translateX(-100px) translateY(50px) scale(0.97);
+}
+.card.right {
+  transform: translateX(100px) translateY(50px) scale(0.97);
+}
+
+/* Reveal animation */
+.card.reveal-advanced {
+  opacity: 1;
+  transform: translateX(0) translateY(0) scale(1);
+}
+
+/* Card Image */
+.card img {
+  flex: 1;
+  max-width: 50%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.card:hover img {
+  transform: scale(1.05);
+}
+
+/* Card Content */
+.card .content {
+  flex: 1;
+  padding: 1.5rem;
+}
+.card h2 {
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+  font-size: 1.4rem;
+}
+.card p {
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* Alternate layout: flip image/text visually */
+.card:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  margin: 1rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 920px) {
+  .card {
+    flex-direction: column !important;
+  }
+  .card img {
+    max-width: 100%;
+  }
+}

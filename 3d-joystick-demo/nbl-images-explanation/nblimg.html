@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NASA Neutral Buoyancy Laboratory</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- AOS CSS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+</head>
+<body>
+  <header>
+    <h1>NASA Neutral Buoyancy Laboratory</h1>
+    <p>Explore how astronauts train underwater for space missions</p>
+  </header>
+
+  <main class="gallery">
+    <section class="card left" data-aos="fade-right">
+      <img src="../nbl-images-explanation/nbl-divers.jpg" alt="NBL Divers">
+      <div class="content">
+        <h2>Divers</h2>
+        <p>Highly trained safety divers work alongside astronauts to guide them, monitor safety, and provide real-time support during underwater spacewalk simulations. The NBL employs both SCUBA and surface-supplied diving systems, with nitrox and air, ensuring comprehensive support for astronauts during training sessions.</p>
+      </div>
+    </section>
+
+    <section class="card right" data-aos="fade-left">
+      <img src="../nbl-images-explanation/nbl-buoyancy.jpg" alt="Neutral Buoyancy Training">
+      <div class="content">
+        <h2>Neutral Buoyancy</h2>
+        <p>The massive pool creates near-weightlessness, allowing astronauts to practice assembly, repairs, and complex space tasks as if they were in orbit. The NBL has extensive experience manipulating buoyancy to simulate full or partial gravity, facilitating realistic training scenarios for spacewalks.</p>
+      </div>
+    </section>
+
+    <section class="card left" data-aos="fade-right">
+      <img src="../nbl-images-explanation/nbl-site-support.jpg" alt="NBL Site Support">
+      <div class="content">
+        <h2>Site Support</h2>
+        <p>Engineers and mission specialists coordinate from control rooms, tracking astronaut movements and giving precise instructions during each simulation. The NBL is equipped with multiple integrated control rooms, extensive video, audio, and instrumentation capabilities, ensuring seamless communication and support during training operations.</p>
+      </div>
+    </section>
+
+    <section class="card right" data-aos="fade-left">
+      <img src="../nbl-images-explanation/nbl-lmf.jpg" alt="Life Support">
+      <div class="content">
+        <h2>Life Support & Facilities</h2>
+        <p>From air systems to suit operations, the facility ensures astronaut health and safety while maintaining realistic mission conditions. The NBL includes an on-site hyperbaric chamber, hypobaric altitude chamber, medical treatment room, and locker room facilities, supporting comprehensive life support during training sessions.</p>
+      </div>
+    </section>
+
+    <section class="card left" data-aos="fade-right">
+      <img src="../nbl-images-explanation/1nbl.jpg" alt="NBL Construction">
+      <div class="content">
+        <h2>History & Construction</h2>
+        <p>Built in the 1990s, the NBL repurposed an industrial building near Johnson Space Center into the world’s largest astronaut training pool. The first suited dives took place in 1996, and in 1997 it was named the Sonny Carter Training Facility in honor of astronaut Manley “Sonny” Carter.</p>
+      </div>
+    </section>
+
+    <section class="card right" data-aos="fade-left">
+      <img src="../nbl-images-explanation/Thomas_Pesquet_EVA_training_pillars.jpg" alt="EVA Testing">
+      <div class="content">
+        <h2>EVA Testing & Future Use</h2>
+        <p>The NBL is also used to test tools, hardware, and spacewalk procedures before real missions. It now supports training for Artemis, commercial spaceflight, and next-generation EVA suits. Over 150 EVAs have been trained at the NBL, including missions to the International Space Station and Hubble Space Telescope.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Source: Adapted from NASA Neutral Buoyancy Laboratory (Johnson Space Center)</p>
+  </footer>
+
+  <!-- AOS + Custom Script -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      offset: 100,
+      duration: 1000,
+      easing: 'ease-in-out',
+      once: false, // animation repeats on scroll up/down
+      mirror: true // reverses animation when scrolling up
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
