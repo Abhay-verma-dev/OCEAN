@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBL Experience</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body>
+  <!-- Bubble Canvas Background -->
+  <canvas id="bubbleCanvas"></canvas>
+
+  <!-- Title -->
+  <div id="title">NBL Experience</div>
+
+  <!-- Info Panel -->
+  <div id="info-panel">
+    <h3>The Pool</h3>
+    <ul>
+      <li>Length: 202 ft (61.5 m)</li>
+      <li>Width: 102 ft (31.1 m)</li>
+      <li>Depth: 40 ft (12.2 m)</li>
+      <li>Volume: 6.2 million gallons</li>
+      <li>Chlorinated fresh water, kept at 84–86 °F (28.9–30 °C)</li>
+    </ul>
+
+    <h3>Facility Highlights</h3>
+    <ul>
+      <li>Integrated control rooms & climate-controlled environment</li>
+      <li>High-quality video, audio & instrumentation systems</li>
+      <li>Multiple cranes for equipment handling</li>
+      <li>SCUBA & surface-supplied dive systems</li>
+      <li>On-site engineering & logistics support</li>
+      <li>ISO Level 8 Clean Room</li>
+      <li>Classrooms, meeting rooms & high-bay work areas</li>
+      <li>Mission-ready, safety-focused team</li>
+    </ul>
+
+    <h3>Diver Support</h3>
+    <p>Professional divers manage operations, safety, and training.  
+       The facility includes a hyperbaric chamber and advanced gas support (nitrox and air).</p>
+  </div>
+
+  <!-- Control Panel -->
+  <div id="control-panel">
+    <h3>Adjust Parameters</h3>
+
+    <div class="control">
+      <label for="density">Density:</label>
+      <input type="range" id="density" min="0" max="2" step="0.1" value="1">
+      <span id="density-value">1.0</span>
+    </div>
+
+    <div class="control">
+      <label for="weight">Weight:</label>
+      <input type="range" id="weight" min="0" max="200" step="5" value="100">
+      <span id="weight-value">100</span>
+    </div>
+
+    <div class="control">
+      <label for="buoyancy">Suit Buoyancy:</label>
+      <input type="range" id="buoyancy" min="-5" max="5" step="0.1" value="0">
+      <span id="buoyancy-value">0</span>
+    </div>
+
+    <div class="control">
+      <label for="balance">Weight Distribution:</label>
+      <select id="balance">
+        <option value="head">Head</option>
+        <option value="torso" selected>Torso</option>
+        <option value="legs">Legs</option>
+      </select>
+    </div>
+
+    <div class="control">
+      <label for="foam">Foam Placement:</label>
+      <select id="foam">
+        <option value="left">Left</option>
+        <option value="center" selected>Center</option>
+        <option value="right">Right</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- 3D Model --> 
+  <model-viewer
+  id="spacesuit"
+  src="spacesuit_model.glb"
+  camera-controls
+  autoplay
+  auto-rotate="false"
+  style="
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    left: calc(50% + 70px);
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(360deg);
+  "
+>
+</model-viewer>
+
+  <!-- Joystick -->
+  <div id="joystick">
+  <div id="knob">
+    <div id="innerpoint">
+       
+    </div>
+
+  </div>
+</div>
+  <script src="script.js"></script>
+</body>
+</html>
