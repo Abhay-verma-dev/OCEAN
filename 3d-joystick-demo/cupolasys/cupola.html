@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NASA Earth Views: Cupola Experience</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Fullscreen canvas for Earth -->
+  <canvas id="earthCanvas"></canvas>
+
+  <!-- Controls -->
+  <div class="controls">
+    <button class="btn" id="rotateBtn"><span>⏯</span> Toggle Rotation</button>
+    <button class="btn btn-outline" id="resetBtn"><span>↺</span> Reset View</button>
+    <button class="btn btn-outline" id="nightBtn"><span>🌙</span> Night View</button>
+  </div>
+
+  <!-- Three.js core -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/Tween.min.js"></script>
+
+  <!-- Load script AFTER DOM -->
+  <script src="script.js" defer></script>
+</body>
+</html>
