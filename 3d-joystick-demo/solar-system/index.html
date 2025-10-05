@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gravity & Vision Explorer</title>
+
+  <!-- main stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Font Awesome (icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- AOS (Animate On Scroll) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+</head>
+<body>
+  <!-- Logo -->
+  <img src="../solar-system/logoprojectx.jpg" alt="Gravity & Vision Explorer logo" id="logo">
+
+  <!-- Info Icon -->
+  <button id="infoBtn" class="info-icon" aria-label="Information">
+    <i class="fas fa-info-circle" aria-hidden="true"></i>
+  </button>
+
+  <!-- Stars -->
+  <div class="stars" id="stars" aria-hidden="true"></div>
+
+  <!-- Solar System (visual background) -->
+  <div id="solarSystem" aria-hidden="true">
+    <div class="solar-system" aria-hidden="true">
+      <div class="sun" aria-hidden="true"></div>
+      <div class="orbit mercury-orbit"><div class="planet-container mercury-container"><div class="planet mercury" aria-hidden="true"></div></div></div>
+      <div class="orbit venus-orbit"><div class="planet-container venus-container"><div class="planet venus" aria-hidden="true"></div></div></div>
+      <div class="orbit earth-orbit"><div class="planet-container earth-container"><div class="planet earth" aria-hidden="true"><div class="moon" aria-hidden="true"></div></div></div></div>
+      <div class="orbit mars-orbit"><div class="planet-container mars-container"><div class="planet mars" aria-hidden="true"></div></div></div>
+      <div class="orbit jupiter-orbit"><div class="planet-container jupiter-container"><div class="planet jupiter" aria-hidden="true"></div></div></div>
+      <div class="orbit saturn-orbit"><div class="planet-container saturn-container"><div class="planet saturn" aria-hidden="true"><div class="saturn-ring" aria-hidden="true"></div></div></div></div>
+      <div class="orbit uranus-orbit"><div class="planet-container uranus-container"><div class="planet uranus" aria-hidden="true"></div></div></div>
+      <div class="orbit neptune-orbit"><div class="planet-container neptune-container"><div class="planet neptune" aria-hidden="true"></div></div></div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero" role="banner">
+    <h1 class="title">Gravity & Vision Explorer</h1>
+    <p class="subtitle">Experience the ISS Cupola & Natural Buoyancy Laboratory</p>
+  </header>
+
+  <!-- Info Card -->
+  <main class="info-card" role="main">
+    <h2 id="cardTitle">Choose an Experience</h2>
+
+    <div class="choices" role="navigation" aria-label="experiences">
+      <button class="big-btn" id="cupolaBtn" aria-label="Open Cupola Experience">
+        <span class="btn-title">Cupola Experience</span>
+        <span class="btn-sub">360° viewport of Earth & station operations</span>
+      </button>
+
+      <button class="big-btn" id="nblBtn" aria-label="Open NBL Training">
+        <span class="btn-title">NBL Training</span>
+        <span class="btn-sub">Simulate neutral buoyancy & suit handling</span>
+      </button>
+    </div>
+
+    <!-- Sub-choices -->
+    <div class="sub-choices" aria-hidden="false">
+      <a href="../nbl-images-explanation/nblimg.html" class="big-btn" aria-label="Discover the NBL Experience">
+        <span class="btn-title">Discover the NBL Experience</span>
+        <span class="btn-sub">View training photos & step-by-step explanation</span>
+      </a>
+
+      <a href="../cupola-images-explanation/cupolaimg.html" class="big-btn" aria-label="Discover the Cupola Experience">
+        <span class="btn-title">Discover the Cupola Experience</span>
+        <span class="btn-sub">Browse Cupola photos & mission commentary</span>
+      </a>
+    </div>
+  </main>
+
+  <!-- Benefits Section -->
+  <section class="benefits-section" aria-labelledby="benefitsHeading">
+    <h2 id="benefitsHeading" class="benefits-title">Benefits of Space Exploration</h2>
+
+    <!-- Benefit: New Discoveries -->
+    <article class="benefit-row" data-aos="fade-right" data-aos-delay="80" aria-labelledby="b1-title">
+      <div class="benefit-icon-container" aria-hidden="true">
+        <i class="fas fa-microscope benefit-icon"></i>
+      </div>
+      <div class="benefit-content">
+        <h3 id="b1-title">New Discoveries</h3>
+        <p>
+          Space missions — from planetary probes to human-tended experiments on the ISS — drive fundamental scientific discoveries about planets, extreme environments, and the physics of the universe. These missions deliver instruments and observational datasets that expand our understanding of planetary atmospheres, solar behavior, and the origins of the Solar System. NASA and other agencies explicitly fund this exploratory science to generate new knowledge that benefits basic research and future mission design. 
+        </p>
+        <p class="source-line">Source: NASA overview on the benefits of space exploration and science programs.</p>
+      </div>
+    </article>
+
+    <!-- Benefit: Technology & Innovation -->
+    <article class="benefit-row" data-aos="fade-left" data-aos-delay="160" aria-labelledby="b2-title">
+      <div class="benefit-icon-container" aria-hidden="true">
+        <i class="fas fa-cogs benefit-icon"></i>
+      </div>
+      <div class="benefit-content">
+        <h3 id="b2-title">Technology & Innovation (Spinoffs)</h3>
+        <p>
+          Technologies developed for space missions are routinely adapted for terrestrial use. NASA’s Technology Transfer and Spinoff programs publish hundreds of examples where mission-driven hardware, sensors, materials and software were commercialized — from medical devices and imaging sensors to water purification, building materials and advanced insulation. These spinoffs create new industries, reduce costs for Earth-bound applications, and accelerate wider technical progress.
+        </p>
+        <p class="source-line">Source: NASA Technology Transfer / Spinoff program.</p>
+      </div>
+    </article>
+
+    <!-- Benefit: Global Challenges (Earth observation & climate) -->
+    <article class="benefit-row" data-aos="fade-right" data-aos-delay="240" aria-labelledby="b3-title">
+      <div class="benefit-icon-container" aria-hidden="true">
+        <i class="fas fa-globe-americas benefit-icon"></i>
+      </div>
+      <div class="benefit-content">
+        <h3 id="b3-title">Tackling Global Challenges</h3>
+        <p>
+          Earth-observing satellites and instruments provide continuous, global data used to monitor climate change, sea-level rise, wildfire behavior, and changing land use. Governments, researchers and emergency managers rely on satellite data to improve weather forecasts, detect hazards, and plan climate-resilient infrastructure. Collaborative missions (satellite fleets, open data portals and modeling systems) translate space-based observations into actionable insights for policy and disaster response.
+        </p>
+        <p class="source-line">Source: NASA Earth science & climate programs.</p>
+      </div>
+    </article>
+
+    <!-- Benefit: Economic Growth -->
+    <article class="benefit-row" data-aos="fade-left" data-aos-delay="320" aria-labelledby="b4-title">
+      <div class="benefit-icon-container" aria-hidden="true">
+        <i class="fas fa-briefcase benefit-icon"></i>
+      </div>
+      <div class="benefit-content">
+        <h3 id="b4-title">Economic Growth & Jobs</h3>
+        <p>
+          Investments in space infrastructure, launch services, research centers and downstream commercial services create high-skilled jobs and new markets. Space programs stimulate private-sector activity — from small-business suppliers to large aerospace firms — and produce intellectual property and software that feed broader economic growth. Public technology transfer programs help spin government-funded R&D into commercial products and companies.
+        </p>
+        <p class="source-line">Source: NASA Technology Transfer and agency economic impact studies.</p>
+      </div>
+    </article>
+
+    <!-- Benefit: Human Exploration -->
+    <article class="benefit-row" data-aos="fade-right" data-aos-delay="400" aria-labelledby="b5-title">
+      <div class="benefit-icon-container" aria-hidden="true">
+        <i class="fas fa-rocket benefit-icon"></i>
+      </div>
+      <div class="benefit-content">
+        <h3 id="b5-title">Human Exploration & Life Support R&D</h3>
+        <p>
+          Human spaceflight programs drive advances in habitats, life-support systems, and sustainable food/water systems. Experiments aboard the ISS (for example, the Veggie plant-growth system) are advancing techniques to grow fresh produce, recycle water, and support long-duration missions — capabilities essential for Moon and Mars missions and for improving closed-loop systems on Earth.
+        </p>
+        <p class="source-line">Source: NASA Veggie and human exploration technology research.</p>
+      </div>
+    </article>
+
+    <!-- Benefit: Global Inspiration & Cooperation -->
+    <article class="benefit-row" data-aos="fade-left" data-aos-delay="480" aria-labelledby="b6-title">
+      <div class="benefit-icon-container" aria-hidden="true">
+        <i class="fas fa-handshake benefit-icon"></i>
+      </div>
+      <div class="benefit-content">
+        <h3 id="b6-title">Inspiration & International Cooperation</h3>
+        <p>
+          Space exploration inspires education, international partnerships, and public engagement with science and engineering. Major programs bring countries together (shared missions, data exchange, joint satellite programs) and foster a global workforce in STEM fields. Agencies emphasize the soft power of exploration — inspiring new generations of scientists, artists and engineers worldwide.
+        </p>
+        <p class="source-line">Source: European Space Agency (ESA) and NASA statements on exploration benefits.</p>
+      </div>
+    </article>
+
+    <!-- Extra Buttons -->
+    <div class="extra-buttons" data-aos="zoom-in" data-aos-delay="560">
+      <button class="big-btn" id="learnMoreBtn" aria-label="Learn more at NASA">
+        <span class="btn-title">Learn More</span>
+        <span class="btn-sub">Dive into NASA's space exploration resources</span>
+      </button>
+
+      <button class="big-btn" id="watchVideoBtn" aria-label="Watch a NASA video">
+        <span class="btn-title">Watch Video</span>
+        <span class="btn-sub">See why space exploration matters for Earth</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- scripts -->
+  <script>
+    // Navigation logic
+    document.getElementById("nblBtn").addEventListener("click", () => {
+      window.location.href = "../nblsys/nbl.html";
+    });
+
+    document.getElementById("cupolaBtn").addEventListener("click", () => {
+      window.location.href = "../cupolasys/cupola.html";
+    });
+
+    document.getElementById("learnMoreBtn").addEventListener("click", () => {
+      window.open("https://www.nasa.gov/", "_blank");
+    });
+
+    document.getElementById("watchVideoBtn").addEventListener("click", () => {
+      window.open("https://youtu.be/GOrMjhc6YM8?si=67EKYKxFozBkk9tl", "_blank");
+    });
+
+    document.getElementById("infoBtn").addEventListener("click", () => {
+      alert("Gravity & Vision Explorer lets you experience the ISS Cupola view and NBL training simulation!");
+    });
+  </script>
+
+  <!-- AOS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 900,
+      once: true,
+      startEvent: 'DOMContentLoaded'
+    });
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>
